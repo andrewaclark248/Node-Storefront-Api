@@ -9,6 +9,32 @@ services:
       - .env
     volumes:
       - 'postgres:/var/lib/postgresql/data'
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: store_front
+
+  web:
+    container_name: node_storefront_api
+    build:
+      context: .
+    env_file: ./.env
+    depends_on:
+      - db
+    
+
+  #migration:
+    #build:
+    #  context: https://github.com/andrewaclark248/Node-Storefront-Api
+  #  command:
+  #    [
+  #      "db-migrate",
+  #      "up"
+  #    ]
+    #links:
+    #  - postgres
+  #  depends_on:
+  #    - postgres
 
 volumes:
   postgres:
