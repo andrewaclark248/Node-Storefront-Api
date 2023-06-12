@@ -1,4 +1,8 @@
 import Client from '../database'
+import bcrypt from 'bcrypt'
+
+const pepper: string = process.env.BCRYPT_PASSWORD as string
+const saltRounds: number = parseInt(process.env.SALT_ROUNDS as string)
 
 export type User = {
     username: string;
@@ -17,10 +21,16 @@ export class UserStore {
 
             const sql = 'INSERT INTO users (firstname, lastname, password, username) VALUES($1, $2, $3, $4) RETURNING *'
 
+            const hashedPassword = bcrypt.hashSync(
+                u.password + pepper, 
+                saltRounds
+             );
+
+
             const result = await conn.query(sql, [
                 u.firstname,
                 u.lastname,
-                u.password,
+                hashedPassword,
                 u.username
             ])
             console.log("stopped here")
