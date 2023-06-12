@@ -1,32 +1,36 @@
 import Client from '../database'
 
 export type User = {
-    firstName: string;
-    lastName: string;
+    username: string;
     password: string;
-    id: Number;
+    firstname: string;
+    lastname: string;
 }
 
-export class Product {
+export class UserStore {
 
     async createUser(u: User): Promise<User> {
         try {
-            // @ts-ignore
-            const connection = await pool.connect()
-            const sql =
-                'INSERT INTO users (username, first_name, last_name, password_digest) VALUES($1, $2, $3, $4) RETURNING *'
 
-            const result = await connection.query(sql, [
-                u.firstName,
-                u.lastName,
+            const conn = await Client.connect();
+            console.log("request recevied")
+
+            const sql = 'INSERT INTO users (firstname, lastname, password, username) VALUES($1, $2, $3, $4) RETURNING *'
+
+            const result = await conn.query(sql, [
+                u.firstname,
+                u.lastname,
                 u.password,
+                u.username
             ])
-            connection.release()
+            console.log("stopped here")
 
-            return result.rows[0]
+            conn.release();
+
+            return result.rows[0];
         } catch (err) {
             throw new Error(
-                `Could not add new user ${u.firstName}. Error: ${err}`
+                `Could not add new user ${u.username}. Error: ${err}`
             )
         }
     }
