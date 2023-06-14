@@ -49,7 +49,7 @@ export class UserStore {
     async index(): Promise<User[]> {
         try {
             const conn = await Client.connect();
-            const sql = 'SELECT * FROM products';
+            const sql = 'SELECT * FROM users';
             const result = await conn.query(sql);
             conn.release();
             return result.rows
