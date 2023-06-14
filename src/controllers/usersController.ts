@@ -2,6 +2,7 @@
 import  jwt  from 'jsonwebtoken';
 import { User, UserStore } from './../models/user'
 import { Request, Response, NextFunction, Router } from 'express';
+import { getTokenByUser } from "./../utils"
 
 const store = new UserStore();
 
@@ -31,11 +32,10 @@ export async function create(req: Request, res: Response, next: NextFunction) {
         const user = await store.createUser(
             newUser
         )
-
-        //console.log("user result", user);
+        const token = getTokenByUser(user);
 
         res.json({
-            success: true
+            token: token
         })
 
     } catch(err) {
