@@ -45,3 +45,7 @@ export async function create(req: Request, res: Response, next: NextFunction) {
 }
 
 
+export async function index(req: Request, res: Response, next: NextFunction) {
+    //list users
+    res.json({listusers: true})
+}
