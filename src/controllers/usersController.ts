@@ -68,3 +68,16 @@ export async function authenticate(req: Request, res: Response, next: NextFuncti
 
     res.json(token)
 }
+
+
+export async function show(req: Request, res: Response, next: NextFunction) {
+    const id: number = Number(req.params.id)
+
+    if (id == 0) {
+        res.json({error: "Please pass a number"})
+        return;
+    }
+
+    const user = await store.show(id)
+    res.json(user)
+}

@@ -60,6 +60,18 @@ export class UserStore {
 
     }
 
+    async show(id: Number): Promise<User> {
+        try {
+            const conn = await Client.connect();
+            const sql = "SELECT * FROM users WHERE id=($1)"
+            const result = await conn.query(sql, [id]);
+            conn.release();
+            return result.rows[0]
+        } catch (err) {
+            throw new Error("error")
+        }
+    }
+
     async authenticate(username: string, password: string): Promise<AuthenticateResult> {
         let result: boolean = false;
         const sql: string = "SELECT * FROM users WHERE username=($1)";
