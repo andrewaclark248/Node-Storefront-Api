@@ -63,7 +63,8 @@ export async function authenticate(req: Request, res: Response, next: NextFuncti
     }
 
     const result = await store.authenticate(username, password)
+    
+    const token = getTokenByUser(result.user as User);
 
-    res.json({success: result})
-
+    res.json(token)
 }
