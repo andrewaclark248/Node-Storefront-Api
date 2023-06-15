@@ -1,5 +1,6 @@
 import Client from '../database'
 import bcrypt from 'bcrypt'
+import { AuthenticateResult } from './../interfaces/index'
 
 const pepper: string = process.env.BCRYPT_PASSWORD as string
 const saltRounds: number = parseInt(process.env.SALT_ROUNDS as string)
@@ -57,6 +58,35 @@ export class UserStore {
             throw new Error("error")
         }
 
+    }
+
+    async show(id: Number): Promise<User> {
+        try {
+            const conn = await Client.connect();
+            const sql = "SELECT * FROM users WHERE id=($1)"
+            const result = await conn.query(sql, [id]);
+            conn.release();
+            return result.rows[0]
+        } catch (err) {
+            throw new Error("error")
+        }
+    }
+
+    async authenticate(username: string, password: string): Promise<AuthenticateResult> {
+        let result: boolean = false;
+        const sql: string = "SELECT * FROM users WHERE username=($1)";
+        const conn = await Client.connect();
+        const {rows} = await conn.query(sql, [username])
+        let user: User | null = null;
+
+        if (rows.length > 0) {
+            user = rows[0]
+            if (bcrypt.compareSync(password + pepper, user!.password)) {
+                result = true
+            } 
+          }
+
+        return { user: user, success: result };
     }
 
 }
