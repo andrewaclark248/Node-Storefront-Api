@@ -51,3 +51,19 @@ export async function index(req: Request, res: Response, next: NextFunction) {
 
     res.json(users)
 }
+
+
+export async function authenticate(req: Request, res: Response, next: NextFunction) {
+    const username = req.body?.username as string;
+    const password = req.body?.password as string;
+
+    if (username == null || password == null) {
+        res.json({error: "Please pass both username & password"})
+        return;
+    }
+
+    const result = await store.authenticate(username, password)
+
+    res.json({success: result})
+
+}
