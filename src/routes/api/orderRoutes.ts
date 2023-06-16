@@ -5,3 +5,6 @@ import { verifyToken } from './../../utils/index'
 
 //product routes
 orderRoutes.post('/order', verifyToken, create);
+
+
+export default orderRoutes;

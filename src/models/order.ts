@@ -47,8 +47,9 @@ export class OrderStore {
                 ...order,
                 products: orderProducts,
             };
-        } catch(err) {
-            console.log("some error")
+
+        } catch(e) {
+            console.log("error", e)
         }
     }
 
