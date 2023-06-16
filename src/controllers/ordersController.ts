@@ -1,11 +1,10 @@
 import { Request, Response, NextFunction, Router } from 'express';
 import { BaseOrder, OrderProduct, OrderStore, Order } from '../models/order';
 
-
 const store = new OrderStore();
 
 
-const create = async (req: Request, res: Response) => {
+export async function create(req: Request, res: Response) {
 
     const products = req.body.products as unknown as OrderProduct[];
     const status = req.body.status as unknown as boolean;
@@ -22,8 +21,8 @@ const create = async (req: Request, res: Response) => {
         products,
         status,
         user_id,
-      });
+    });
 
-      res.json(order);
+    res.json(order);
 
 }
