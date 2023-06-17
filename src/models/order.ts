@@ -52,38 +52,27 @@ export class OrderStore {
         }
     }
 
-
-    async update(id: number, order: BaseOrder): Promise<Order> {
+    async get(id: number): Promise<Order> {
         try {
-            const { products, status, user_id } = order;
-
-            const sql = 'UPDATE orders SET status = $1 WHERE id = $2 RETURNING *';
             const conn = await Client.connect();
-            const { rows } = await conn.query(sql, [status, id]);
-            const updatedOrder = rows[0];
-    
-    
-            const orderProductsSql = 'UPDATE order_products SET product_id = $1, quantity = $2 WHERE order_id = $3 RETURNING product_id, quantity';
-            const orderProducts = [];
-    
-            for (const product of products) {
-                const { rows } = await conn.query(orderProductsSql, [
-                  product.product_id,
-                  product.quantity,
-                  updatedOrder.id,
-                ]);
-                orderProducts.push(rows[0]);
-            }
+
+            //create orders
+            const sql = "SELECT * FROM orders WHERE id=($1)"
+            const {rows} = await conn.query(sql, [id])
+            const order = rows[0];
+
+            const orderProductsSql = "SELECT product_id, quantity FROM order_products WHERE order_id=($1)"
+            const {rows: orderProductRows} = await conn.query(orderProductsSql, [id])
+
             conn.release();
 
             return {
-                ...updatedOrder,
-                products: orderProducts,
-            }; 
+                ...order,
+                products: orderProductRows
+              }        
         } catch(e) {
             throw(e)
         }
-
     }
 
 
