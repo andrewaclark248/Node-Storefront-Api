@@ -26,3 +26,30 @@ export async function create(req: Request, res: Response) {
     res.json(order);
 
 }
+
+
+export async function update(req: Request, res: Response) {
+    const id: number = Number(req.params.id)// as number;
+    const products = req.body.products as OrderProduct[];
+    const status = req.body.status as boolean;
+    const user_id: number = Number(req.body.user_id) //as number;
+
+    if (id == null ||
+        status == null || 
+        products == null ||
+        user_id == null) {
+
+        res.json({error: "Must have have the following params: id, products, status, user_id"})
+        return;
+    }
+
+    const order: Order = await store.update(id, {
+        products,
+        status,
+        user_id,
+    }); 
+
+  
+    res.json(order)
+
+}

@@ -22,7 +22,7 @@ export interface Order {
 export class OrderStore {
 
 
-    async create(newOrder: BaseOrder) {
+    async create(newOrder: BaseOrder): Promise<Order> {
         try {
             const conn = await Client.connect();
 
@@ -47,10 +47,43 @@ export class OrderStore {
                 ...order,
                 products: orderProducts,
             };
-
         } catch(e) {
-            console.log("error", e)
+            throw(e)
         }
+    }
+
+
+    async update(id: number, order: BaseOrder): Promise<Order> {
+        try {
+            const { products, status, user_id } = order;
+
+            const sql = 'UPDATE orders SET status = $1 WHERE id = $2 RETURNING *';
+            const conn = await Client.connect();
+            const { rows } = await conn.query(sql, [status, id]);
+            const updatedOrder = rows[0];
+    
+    
+            const orderProductsSql = 'UPDATE order_products SET product_id = $1, quantity = $2 WHERE order_id = $3 RETURNING product_id, quantity';
+            const orderProducts = [];
+    
+            for (const product of products) {
+                const { rows } = await conn.query(orderProductsSql, [
+                  product.product_id,
+                  product.quantity,
+                  updatedOrder.id,
+                ]);
+                orderProducts.push(rows[0]);
+            }
+            conn.release();
+
+            return {
+                ...updatedOrder,
+                products: orderProducts,
+            }; 
+        } catch(e) {
+            throw(e)
+        }
+
     }
 
 
