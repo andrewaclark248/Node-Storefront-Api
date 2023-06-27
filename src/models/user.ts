@@ -18,26 +18,18 @@ export class UserStore {
         try {
 
             const conn = await Client.connect();
-            console.log("request recevied")
-
             const sql = 'INSERT INTO users (firstname, lastname, password, username) VALUES($1, $2, $3, $4) RETURNING *'
-
             const hashedPassword = bcrypt.hashSync(
                 u.password + pepper, 
                 saltRounds
              );
-
-
             const result = await conn.query(sql, [
                 u.firstname,
                 u.lastname,
                 hashedPassword,
                 u.username
             ])
-            console.log("stopped here")
-
             conn.release();
-
             return result.rows[0];
         } catch (err) {
             throw new Error(
