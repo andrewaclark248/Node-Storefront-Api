@@ -20,6 +20,10 @@ describe("User Model", () => {
         lastname: "Johnson"
     };
 
+    afterEach(async () => {
+        await userStore.deleteAll()
+    });
+
 
     it("createUser", async () => {
         const user = await userStore.createUser(newUser1)
@@ -31,15 +35,43 @@ describe("User Model", () => {
     })
 
 
-    fit("index", async () => {
-        let user1 = await userStore.createUser(newUser1)
-        let user2 = await userStore.createUser(newUser2)
-
-        const users = await userStore.index()
-
-        //const hasUser1 = users.includes(newUser1)
-       // expect(hasUser1).toBeTrue();
-
+    it("index", async () => {
+        await userStore.createUser(newUser1);
+        await userStore.createUser(newUser2);
+        const users = await userStore.index();
+        const hasUser1 = users.filter((u) => { return u.firstname == newUser1.firstname})
+        
+        expect(hasUser1.length).toEqual(1);
     })
+
+
+    it("show", async () => {
+        let createdUser = await userStore.createUser(newUser1);
+        let user = await userStore.show(createdUser.id as number);
+
+        expect(user.firstname).toEqual(newUser1.firstname)
+        expect(user.lastname).toEqual(newUser1.lastname)
+        expect(user.username).toEqual(newUser1.username)
+    })
+
+
+    it("authenticate", async () => {
+        await userStore.createUser(newUser1);
+        let {user, success} = await userStore.authenticate(newUser1.username, newUser1.password);
+
+        expect(success).toEqual(true)
+        expect(user!.firstname).toEqual(newUser1.firstname)
+        expect(user!.lastname).toEqual(newUser1.lastname)
+        expect(user!.username).toEqual(newUser1.username)
+    })
+
+
+    fit("deleteAll", async () => {
+        await userStore.deleteAll;
+        const users = await userStore.index();
+
+        expect(users.length).toEqual(0)
+    })
+    
 
 })

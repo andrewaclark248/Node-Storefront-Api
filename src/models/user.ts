@@ -10,6 +10,7 @@ export type User = {
     password: string;
     firstname: string;
     lastname: string;
+    id?: number;
 }
 
 export class UserStore {
@@ -79,6 +80,22 @@ export class UserStore {
           }
 
         return { user: user, success: result };
+    }
+
+    async deleteAll() {
+        try {
+            const conn = await Client.connect();
+            const deleteAllOrderProducts = 'DELETE FROM order_products;';
+            await conn.query(deleteAllOrderProducts);
+            const deleteAllOrders = 'DELETE FROM orders;';
+            await conn.query(deleteAllOrders);
+            const deleteAllUsers = 'DELETE FROM users;';
+            await conn.query(deleteAllUsers);
+            conn.release();
+        } catch (err) {
+            console.log("custom error", err)
+            throw new Error("error")
+        }
     }
 
 }
