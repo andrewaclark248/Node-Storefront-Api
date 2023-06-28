@@ -66,7 +66,7 @@ describe("User Model", () => {
     })
 
 
-    fit("deleteAll", async () => {
+    it("deleteAll", async () => {
         await userStore.deleteAll;
         const users = await userStore.index();
 
