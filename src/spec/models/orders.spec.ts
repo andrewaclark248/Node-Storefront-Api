@@ -52,7 +52,7 @@ describe("User Model", () => {
     }) 
     
     
-    fit("deleteAll", async () => {
+    it("deleteAll", async () => {
         //create order
         let userOrder = await createUserAndProduct();
         let newOrder = await orderStore.create(userOrder)

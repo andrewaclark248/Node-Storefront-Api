@@ -52,7 +52,7 @@ export async function index(req: Request, res: Response, next: NextFunction) {
     res.json(users)
 }
 
-
+/*** 
 export async function authenticate(req: Request, res: Response, next: NextFunction) {
     const username = req.body?.username as string;
     const password = req.body?.password as string;
@@ -67,7 +67,7 @@ export async function authenticate(req: Request, res: Response, next: NextFuncti
     const token = getTokenByUser(result.user as User);
 
     res.json(token)
-}
+}***/
 
 
 export async function show(req: Request, res: Response, next: NextFunction) {

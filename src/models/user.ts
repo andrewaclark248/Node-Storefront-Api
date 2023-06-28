@@ -65,6 +65,7 @@ export class UserStore {
         }
     }
 
+    /****
     async authenticate(username: string, password: string): Promise<AuthenticateResult> {
         let result: boolean = false;
         const sql: string = "SELECT * FROM users WHERE username=($1)";
@@ -80,7 +81,7 @@ export class UserStore {
           }
 
         return { user: user, success: result };
-    }
+    } ****/
 
     async deleteAll() {
         try {
