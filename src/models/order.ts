@@ -1,16 +1,5 @@
 import Client from '../database'
 
-export interface OrderProduct {
-    product_id: number,
-    quantity: number
-  }
-  
-export interface BaseOrder {
-    products: OrderProduct[];
-    user_id: number;
-    status: boolean;
-}
-
 export interface Order {
     products: OrderProduct[];
     user_id: number;
@@ -18,11 +7,28 @@ export interface Order {
     id: number;
 }
 
+export interface UserOrder {
+    products: OrderProduct[];
+    user_id: number;
+    status: boolean;
+    id?: number;
+}
+
+export interface OrderProduct {
+    product_id: number,
+    quantity: number
+}
+  
+
+
+//BaseOrder
+
+
 
 export class OrderStore {
 
 
-    async create(newOrder: BaseOrder): Promise<Order> {
+    async create(newOrder: UserOrder): Promise<Order> {
         try {
             const conn = await Client.connect();
 
@@ -70,6 +76,23 @@ export class OrderStore {
                 ...order,
                 products: orderProductRows
               }        
+        } catch(e) {
+            throw(e)
+        }
+    }
+
+    async deleteAll(): Promise<void> {
+
+        try {
+            const conn = await Client.connect();
+            const deleteOrderProducts = "DELETE FROM order_products"
+            await conn.query(deleteOrderProducts)
+
+            const deleteOrders = "DELETE FROM orders"
+            await conn.query(deleteOrders)
+
+            conn.release();
+
         } catch(e) {
             throw(e)
         }
