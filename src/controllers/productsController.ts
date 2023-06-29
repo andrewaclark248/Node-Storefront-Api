@@ -4,21 +4,29 @@ import { ProductStore, ProductType } from './../models/product';
 const store = new ProductStore();
 
 export async function index(req: Request, res: Response) {
-  const products = await store.index();
+  try {
+    const products = await store.index();
 
-  res.json(products);
+    res.json(products);
+  } catch (e) {
+    throw new Error('error');
+  }
 }
 
 export async function show(req: Request, res: Response) {
-  const id: number = Number(req.params.id);
+  try {
+    const id: number = Number(req.params.id);
 
-  if (id == 0) {
-    res.json({ error: 'Please pass a number' });
-    return;
+    if (id == 0) {
+      res.json({ error: 'Please pass a number' });
+      return;
+    }
+  
+    const product = await store.show(id);
+    res.json(product);
+  } catch (e) {
+    throw new Error('error');
   }
-
-  const product = await store.show(id);
-  res.json(product);
 }
 
 export async function create(req: Request, res: Response) {
@@ -41,6 +49,6 @@ export async function create(req: Request, res: Response) {
     const product = await store.createProduct(newProduct);
     res.json(product);
   } catch (err) {
-    res.json(err);
+    throw new Error('error');
   }
 }
