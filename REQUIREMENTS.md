@@ -23,36 +23,22 @@ These are the notes from a meeting with the frontend developer that describe wha
 - SHOW - GET: /api/products/:id REQUIRED PARAMS: Auth Token
 
 
-#### Products
-- Index 
-- Show
-- Create [token]
-- [OPTIONAL] Top 5 most popular products 
-- [OPTIONAL] Products by category (args: product category)
-
-
-
-#### Orders
-- Current Order by user (args: user id)[token required]
-- [OPTIONAL] Completed Orders by user (args: user id)[token required]
-
-## Data Shapes
-#### Product
--  id
-- name
-- price
-- [OPTIONAL] category
-
+## Database Schema
 #### User
-- id
-- firstName
-- lastName
-- password
+- id         SERIAL PRIMARY KEY
+- firstName  VARCHAR(100)
+- lastName   VARCHAR(100)
+- password   VARCHAR(100)
+- username   VARCHAR(255)
+
+#### Product
+-  id        SERIAL PRIMARY KEY
+- name       VARCHAR(100)
+- price      integer
+
 
 #### Orders
-- id
-- id of each product in the order
-- quantity of each product in the order
-- user_id
-- status of order (active or complete)
+- order_id   integer
+- product_id integer
+- quantity   integer
 
