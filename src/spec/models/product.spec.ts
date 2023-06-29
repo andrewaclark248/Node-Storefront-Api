@@ -20,7 +20,7 @@ describe("Product Model", () => {
     }
 
 
-    it("createUser", async () => {
+    it("create", async () => {
         const product = await productStore.createProduct(newProduct1)
 
         expect(newProduct1.name).toEqual(product.name)

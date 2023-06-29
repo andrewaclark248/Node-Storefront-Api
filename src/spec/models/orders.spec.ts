@@ -26,7 +26,7 @@ let newProduct2: ProductType = {
 
 
 
-describe("User Model", () => {
+describe("Order Model", () => {
 
     afterEach(async () => {
         await orderStore.deleteAll()
