@@ -10,6 +10,7 @@ export type User = {
     password: string;
     firstname: string;
     lastname: string;
+    id?: number;
 }
 
 export class UserStore {
@@ -18,26 +19,18 @@ export class UserStore {
         try {
 
             const conn = await Client.connect();
-            console.log("request recevied")
-
             const sql = 'INSERT INTO users (firstname, lastname, password, username) VALUES($1, $2, $3, $4) RETURNING *'
-
             const hashedPassword = bcrypt.hashSync(
                 u.password + pepper, 
                 saltRounds
              );
-
-
             const result = await conn.query(sql, [
                 u.firstname,
                 u.lastname,
                 hashedPassword,
                 u.username
             ])
-            console.log("stopped here")
-
             conn.release();
-
             return result.rows[0];
         } catch (err) {
             throw new Error(
@@ -72,21 +65,20 @@ export class UserStore {
         }
     }
 
-    async authenticate(username: string, password: string): Promise<AuthenticateResult> {
-        let result: boolean = false;
-        const sql: string = "SELECT * FROM users WHERE username=($1)";
-        const conn = await Client.connect();
-        const {rows} = await conn.query(sql, [username])
-        let user: User | null = null;
-
-        if (rows.length > 0) {
-            user = rows[0]
-            if (bcrypt.compareSync(password + pepper, user!.password)) {
-                result = true
-            } 
-          }
-
-        return { user: user, success: result };
+    async deleteAll() {
+        try {
+            const conn = await Client.connect();
+            const deleteAllOrderProducts = 'DELETE FROM order_products;';
+            await conn.query(deleteAllOrderProducts);
+            const deleteAllOrders = 'DELETE FROM orders;';
+            await conn.query(deleteAllOrders);
+            const deleteAllUsers = 'DELETE FROM users;';
+            await conn.query(deleteAllUsers);
+            conn.release();
+        } catch (err) {
+            console.log("custom error", err)
+            throw new Error("error")
+        }
     }
 
 }

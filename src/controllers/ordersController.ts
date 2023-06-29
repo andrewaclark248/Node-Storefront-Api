@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction, Router } from 'express';
-import { BaseOrder, OrderProduct, OrderStore, Order } from '../models/order';
+import { OrderProduct, OrderStore, Order } from '../models/order';
 
 const store = new OrderStore();
 

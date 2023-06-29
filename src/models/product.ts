@@ -3,6 +3,7 @@ import Client from '../database'
 export type ProductType = {
     name: string;
     price: Number;
+    id?: Number;
 }
 
 export class ProductStore {
@@ -48,6 +49,18 @@ export class ProductStore {
             const result = await conn.query(sql, [id]);
             conn.release();
             return result.rows[0]
+        } catch (err) {
+            throw new Error("error")
+        }
+
+    }
+
+    async deleteAll(): Promise<void> {
+        try {
+            const conn = await Client.connect();
+            const sql = "DELETE FROM products"
+            const result = await conn.query(sql);
+            conn.release();
         } catch (err) {
             throw new Error("error")
         }
