@@ -13,9 +13,10 @@ const newProduct = {
     "price": 100
 }
 
-describe('productsController', () => {
+describe('ordersController', () => {
 
     afterEach(async () => {
+        await userStore.deleteAll()
         await productStore.deleteAll()
     });
 
