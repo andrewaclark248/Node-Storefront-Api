@@ -3,7 +3,26 @@ The company stakeholders want to create an online storefront to showcase their g
 
 These are the notes from a meeting with the frontend developer that describe what endpoints the API needs to supply, as well as data shapes the frontend and backend have agreed meet the requirements of the application. 
 
-## API Endpoints
+
+## RESUTFUL ROUTES
+
+#### Users
+- CREATE - POST: /api/users REQUIRED PARAMS: { username: "", password: ""}
+- INDEX - GET: /api/users REQUIRED PARAMS: Auth Token
+- SHOW - GET: /api/users/:id REQUIRED PARAMS: Auth Token
+
+
+#### Products
+- CREATE - POST: /api/products REQUIRED PARAMS: { username: "", password: ""}, Auth Token
+- INDEX - GET: /api/products
+- SHOW - GET: /api/products/:id
+
+
+#### Orders
+- CREATE - POST: /api/order REQUIRED PARAMS: { products: [product_id: "", quantity: ""], status: true, user_id: "" }, Auth Token
+- SHOW - GET: /api/products/:id REQUIRED PARAMS: Auth Token
+
+
 #### Products
 - Index 
 - Show
@@ -11,10 +30,7 @@ These are the notes from a meeting with the frontend developer that describe wha
 - [OPTIONAL] Top 5 most popular products 
 - [OPTIONAL] Products by category (args: product category)
 
-#### Users
-- Index [token required]
-- Show [token required]
-- Create N[token required]
+
 
 #### Orders
 - Current Order by user (args: user id)[token required]
