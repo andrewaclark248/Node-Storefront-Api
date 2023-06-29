@@ -8,6 +8,9 @@ Ensure you have 2 database created the following
 4.) Start server: npm run start
 
 
+## Running Ports
+After start up, the server will start on port 3000 and the database on port 5432
+
 ## To run tests
 Ensure you have 2 database created the following
 1.) npm run test
@@ -16,4 +19,5 @@ Ensure you have 2 database created the following
 ## To run tests
 Ensure you have 2 database created the following
 1.) npm run test
+
 
