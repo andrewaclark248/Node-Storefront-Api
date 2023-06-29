@@ -1,6 +1,6 @@
 import app from './../../server';
 import supertest from 'supertest';
-import { UserStore, User } from '../../models/user';
+import { UserStore } from '../../models/user';
 import { ProductStore } from '../../models/product';
 import { OrderStore } from '../../models/order';
 
@@ -11,11 +11,6 @@ const orderStore = new OrderStore();
 let token = '';
 let productId: number = 0;
 
-const newProduct = {
-  name: 'product-1',
-  price: 100,
-};
-
 describe('ordersController', () => {
   afterEach(async () => {
     await userStore.deleteAll();
@@ -25,17 +20,17 @@ describe('ordersController', () => {
 
   it('create', async () => {
     await createUserAndProduct();
-    let responseBody = await request
+    const responseBody = await request
       .get('/api/users')
       .set('Authorization', 'Bearer ' + token);
-    let user_id = responseBody.body[0].id;
+      const user_id = responseBody.body[0].id;
 
-    let requestBody = {
+    const requestBody = {
       products: [{ product_id: productId, quantity: 2 }],
       user_id: user_id,
       status: true,
     };
-    let result = await request
+    const result = await request
       .post('/api/order')
       .send(requestBody)
       .set('Authorization', 'Bearer ' + token);
@@ -51,24 +46,24 @@ describe('ordersController', () => {
   it('show', async () => {
     //create product
     await createUserAndProduct();
-    let responseBody = await request
+    const responseBody = await request
       .get('/api/users')
       .set('Authorization', 'Bearer ' + token);
-    let user_id = responseBody.body[0].id;
+      const user_id = responseBody.body[0].id;
 
-    let requestBody = {
+    const requestBody = {
       products: [{ product_id: productId, quantity: 2 }],
       user_id: user_id,
       status: true,
     };
-    let result = await request
+    const result = await request
       .post('/api/order')
       .send(requestBody)
       .set('Authorization', 'Bearer ' + token);
-    let orderId = result.body.id;
+    const orderId = result.body.id;
 
     //get order
-    let order = await request
+    const order = await request
       .get(`/api/order/${orderId}`)
       .set('Authorization', 'Bearer ' + token);
 
@@ -89,7 +84,7 @@ async function createUserAndProduct() {
     firstname: 'andrew',
     lastname: 'clark',
   };
-  let result = await request.post('/api/users').send(newUser);
+  const result = await request.post('/api/users').send(newUser);
   token = result.body.token;
 
   //create product
@@ -97,7 +92,7 @@ async function createUserAndProduct() {
     name: 'product-1',
     price: 100,
   };
-  let productResponse = await request
+  const productResponse = await request
     .post('/api/products')
     .send(newProduct)
     .set('Authorization', 'Bearer ' + token);

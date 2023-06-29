@@ -7,12 +7,12 @@ describe('Product Model', () => {
     await productStore.deleteAll();
   });
 
-  let newProduct1: ProductType = {
+  const newProduct1: ProductType = {
     name: 'product-name',
     price: 100,
   };
 
-  let newProduct2: ProductType = {
+  const newProduct2: ProductType = {
     name: 'product-name2',
     price: 200,
   };
@@ -34,8 +34,8 @@ describe('Product Model', () => {
   });
 
   it('show', async () => {
-    let createdProduct = await productStore.createProduct(newProduct1);
-    let product = await productStore.show(createdProduct.id as number);
+    const createdProduct = await productStore.createProduct(newProduct1);
+    const product = await productStore.show(createdProduct.id as number);
 
     expect(product.name).toEqual(newProduct1.name);
     expect(product.price).toEqual(newProduct1.price);

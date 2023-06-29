@@ -39,8 +39,8 @@ describe('User Model', () => {
   });
 
   it('show', async () => {
-    let createdUser = await userStore.createUser(newUser1);
-    let user = await userStore.show(createdUser.id as number);
+    const createdUser = await userStore.createUser(newUser1);
+    const user = await userStore.show(createdUser.id as number);
 
     expect(user.firstname).toEqual(newUser1.firstname);
     expect(user.lastname).toEqual(newUser1.lastname);

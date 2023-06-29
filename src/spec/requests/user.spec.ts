@@ -1,6 +1,6 @@
 import app from './../../server';
 import supertest from 'supertest';
-import { UserStore, User } from '../../models/user';
+import { UserStore } from '../../models/user';
 
 const request = supertest(app);
 const userStore = new UserStore();
@@ -38,11 +38,11 @@ describe('usersController', () => {
     const getUserResponse = await request
       .get('/api/users')
       .set('Authorization', 'Bearer ' + token);
-    let id = getUserResponse.body[0].id;
+      const id = getUserResponse.body[0].id;
     const response = await request
       .get(`/api/users/${id}`)
       .set('Authorization', 'Bearer ' + token);
-    let user = response.body;
+    const user = response.body;
 
     expect(user.firstname).toEqual(newUser.firstname);
     expect(user.lastname).toEqual(newUser.lastname);
@@ -63,6 +63,6 @@ describe('usersController', () => {
 });
 
 async function createUser() {
-  let result = await request.post('/api/users').send(newUser);
+  const result = await request.post('/api/users').send(newUser);
   token = result.body.token;
 }
