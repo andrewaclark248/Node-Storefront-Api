@@ -65,7 +65,6 @@ describe('ordersController', () => {
       .set('Authorization', 'Bearer ' + token);
 
     expect(productsResponse.body.length).toBeGreaterThan(0);
-
   });
 });
 

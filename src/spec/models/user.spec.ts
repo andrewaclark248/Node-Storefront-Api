@@ -35,7 +35,6 @@ describe('User Model', () => {
     const users = await userStore.index();
 
     expect(users.length).toBeGreaterThan(0);
-
   });
 
   it('show', async () => {

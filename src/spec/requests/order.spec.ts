@@ -23,7 +23,7 @@ describe('ordersController', () => {
     const responseBody = await request
       .get('/api/users')
       .set('Authorization', 'Bearer ' + token);
-      const user_id = responseBody.body[0].id;
+    const user_id = responseBody.body[0].id;
 
     const requestBody = {
       products: [{ product_id: productId, quantity: 2 }],
@@ -49,7 +49,7 @@ describe('ordersController', () => {
     const responseBody = await request
       .get('/api/users')
       .set('Authorization', 'Bearer ' + token);
-      const user_id = responseBody.body[0].id;
+    const user_id = responseBody.body[0].id;
 
     const requestBody = {
       products: [{ product_id: productId, quantity: 2 }],

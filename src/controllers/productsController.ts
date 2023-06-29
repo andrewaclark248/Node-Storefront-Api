@@ -21,7 +21,7 @@ export async function show(req: Request, res: Response) {
       res.json({ error: 'Please pass a number' });
       return;
     }
-  
+
     const product = await store.show(id);
     res.json(product);
   } catch (e) {
