@@ -1,104 +1,104 @@
-import Client from '../database'
+import Client from '../database';
 
 export interface Order {
-    products: OrderProduct[];
-    user_id: number;
-    status: boolean;
-    id: number;
+  products: OrderProduct[];
+  user_id: number;
+  status: boolean;
+  id: number;
 }
 
 export interface UserOrder {
-    products: OrderProduct[];
-    user_id: number;
-    status: boolean;
-    id?: number;
+  products: OrderProduct[];
+  user_id: number;
+  status: boolean;
+  id?: number;
 }
 
 export interface OrderProduct {
-    product_id: number,
-    quantity: number
+  product_id: number;
+  quantity: number;
 }
-  
-
 
 //BaseOrder
 
-
-
 export class OrderStore {
+  async create(newOrder: UserOrder): Promise<Order> {
+    try {
+      const conn = await Client.connect();
 
+      //create orders
+      const sql =
+        'INSERT INTO orders (user_id, status) VALUES($1, $2) RETURNING *';
+      const { rows } = await conn.query(sql, [
+        newOrder.user_id,
+        newOrder.status,
+      ]);
+      const order = rows[0];
 
-    async create(newOrder: UserOrder): Promise<Order> {
-        try {
-            const conn = await Client.connect();
+      //create order_products
+      const orderProductsSql =
+        'INSERT INTO order_products (order_id, product_id, quantity) VALUES($1, $2, $3) RETURNING product_id, quantity';
+      const orderProducts = [];
 
-            //create orders
-            const sql = 'INSERT INTO orders (user_id, status) VALUES($1, $2) RETURNING *';
-            const { rows } = await conn.query(sql, [newOrder.user_id, newOrder.status]);
-            const order = rows[0];
+      for (const product of newOrder.products) {
+        const { product_id, quantity } = product;
+        const { rows } = await conn.query(orderProductsSql, [
+          order.id,
+          product_id,
+          quantity,
+        ]);
+        orderProducts.push(rows[0]);
+      }
 
-            //create order_products
-            const orderProductsSql = 'INSERT INTO order_products (order_id, product_id, quantity) VALUES($1, $2, $3) RETURNING product_id, quantity';
-            const orderProducts = [];
+      conn.release();
 
-            for (const product of newOrder.products) {
-                const { product_id, quantity } = product;
-                const { rows } = await conn.query(orderProductsSql, [order.id, product_id, quantity]);
-                orderProducts.push(rows[0]);
-            }
-
-            conn.release();
-
-            return {
-                ...order,
-                products: orderProducts,
-            };
-        } catch(e) {
-            throw(e)
-        }
+      return {
+        ...order,
+        products: orderProducts,
+      };
+    } catch (e) {
+      throw e;
     }
+  }
 
-    async get(id: number): Promise<Order> {
-        try {
-            const conn = await Client.connect();
+  async get(id: number): Promise<Order> {
+    try {
+      const conn = await Client.connect();
 
-            //create orders
-            const sql = "SELECT * FROM orders WHERE id=($1)"
-            const {rows} = await conn.query(sql, [id])
-            const order = rows[0];
+      //create orders
+      const sql = 'SELECT * FROM orders WHERE id=($1)';
+      const { rows } = await conn.query(sql, [id]);
+      const order = rows[0];
 
-            const orderProductsSql = "SELECT product_id, quantity FROM order_products WHERE order_id=($1)"
-            const {rows: orderProductRows} = await conn.query(orderProductsSql, [id])
+      const orderProductsSql =
+        'SELECT product_id, quantity FROM order_products WHERE order_id=($1)';
+      const { rows: orderProductRows } = await conn.query(orderProductsSql, [
+        id,
+      ]);
 
-            conn.release();
+      conn.release();
 
-            return {
-                ...order,
-                products: orderProductRows
-              }        
-        } catch(e) {
-            throw(e)
-        }
+      return {
+        ...order,
+        products: orderProductRows,
+      };
+    } catch (e) {
+      throw e;
     }
+  }
 
-    async deleteAll(): Promise<void> {
+  async deleteAll(): Promise<void> {
+    try {
+      const conn = await Client.connect();
+      const deleteOrderProducts = 'DELETE FROM order_products';
+      await conn.query(deleteOrderProducts);
 
-        try {
-            const conn = await Client.connect();
-            const deleteOrderProducts = "DELETE FROM order_products"
-            await conn.query(deleteOrderProducts)
+      const deleteOrders = 'DELETE FROM orders';
+      await conn.query(deleteOrders);
 
-            const deleteOrders = "DELETE FROM orders"
-            await conn.query(deleteOrders)
-
-            conn.release();
-
-        } catch(e) {
-            throw(e)
-        }
+      conn.release();
+    } catch (e) {
+      throw e;
     }
-
-
+  }
 }
-
-

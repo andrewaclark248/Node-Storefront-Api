@@ -1,6 +1,6 @@
-import { User } from '../models/user'
+import { User } from '../models/user';
 
 export interface AuthenticateResult {
-    user: User | null;
-    success: boolean;
+  user: User | null;
+  success: boolean;
 }
