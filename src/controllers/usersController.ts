@@ -38,19 +38,31 @@ export async function create(req: Request, res: Response) {
 }
 
 export async function index(req: Request, res: Response) {
-  const users = await store.index();
+  try {
+    const users = await store.index();
 
-  res.json(users);
+    res.json(users);
+  } catch (e) {
+    console.log("error", e)
+  }
 }
 
 export async function show(req: Request, res: Response) {
-  const id: number = Number(req.params.id);
 
-  if (id == 0) {
-    res.json({ error: 'Please pass a number' });
-    return;
+  try {
+
+    const id: number = Number(req.params.id);
+
+    if (id == 0) {
+      res.json({ error: 'Please pass a number' });
+      return;
+    }
+  
+    const user = await store.show(id);
+    res.json(user);
+
+  } catch (e) {
+    console.log("error", e)
   }
 
-  const user = await store.show(id);
-  res.json(user);
 }
