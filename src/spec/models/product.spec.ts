@@ -30,7 +30,6 @@ describe('Product Model', () => {
     const products = await productStore.index();
 
     expect(products.length).toBeGreaterThan(0);
-
   });
 
   it('show', async () => {

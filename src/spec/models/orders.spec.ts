@@ -76,8 +76,14 @@ async function createUserAndProduct(): Promise<UserOrder> {
   const product1 = await productStore.createProduct(newProduct1);
   const product2 = await productStore.createProduct(newProduct2);
 
-  const order1: OrderProduct = { product_id: product1.id as number, quantity: 1 };
-  const order2: OrderProduct = { product_id: product2.id as number, quantity: 1 };
+  const order1: OrderProduct = {
+    product_id: product1.id as number,
+    quantity: 1,
+  };
+  const order2: OrderProduct = {
+    product_id: product2.id as number,
+    quantity: 1,
+  };
 
   const userOrder: UserOrder = {
     products: [order1, order2],

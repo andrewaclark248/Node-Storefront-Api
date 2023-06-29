@@ -43,26 +43,22 @@ export async function index(req: Request, res: Response) {
 
     res.json(users);
   } catch (e) {
-    console.log("error", e)
+    console.log('error', e);
   }
 }
 
 export async function show(req: Request, res: Response) {
-
   try {
-
     const id: number = Number(req.params.id);
 
     if (id == 0) {
       res.json({ error: 'Please pass a number' });
       return;
     }
-  
+
     const user = await store.show(id);
     res.json(user);
-
   } catch (e) {
-    console.log("error", e)
+    console.log('error', e);
   }
-
 }

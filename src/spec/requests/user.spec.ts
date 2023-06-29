@@ -30,7 +30,7 @@ describe('usersController', () => {
       .get('/api/users')
       .set('Authorization', 'Bearer ' + token);
 
-      expect(response.body.length).toBeGreaterThan(0);
+    expect(response.body.length).toBeGreaterThan(0);
   });
 
   it('show', async () => {
@@ -38,7 +38,7 @@ describe('usersController', () => {
     const getUserResponse = await request
       .get('/api/users')
       .set('Authorization', 'Bearer ' + token);
-      const id = getUserResponse.body[0].id;
+    const id = getUserResponse.body[0].id;
     const response = await request
       .get(`/api/users/${id}`)
       .set('Authorization', 'Bearer ' + token);
