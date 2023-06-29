@@ -1,15 +1,15 @@
-import { Request, Response, NextFunction, Router } from 'express';
+import { Request, Response } from 'express';
 import { ProductStore, ProductType } from './../models/product';
 
 const store = new ProductStore();
 
-export async function index(req: Request, res: Response, next: NextFunction) {
+export async function index(req: Request, res: Response) {
   const products = await store.index();
 
   res.json(products);
 }
 
-export async function show(req: Request, res: Response, next: NextFunction) {
+export async function show(req: Request, res: Response) {
   const id: number = Number(req.params.id);
 
   if (id == 0) {
@@ -21,10 +21,10 @@ export async function show(req: Request, res: Response, next: NextFunction) {
   res.json(product);
 }
 
-export async function create(req: Request, res: Response, next: NextFunction) {
+export async function create(req: Request, res: Response) {
   try {
-    let name = req.body?.name as string;
-    let price = req.body?.price as string;
+    const name = req.body?.name as string;
+    const price = req.body?.price as string;
 
     if (name == null || price == null) {
       res.json({

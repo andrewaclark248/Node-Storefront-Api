@@ -1,6 +1,5 @@
 import Client from '../database';
 import bcrypt from 'bcrypt';
-import { AuthenticateResult } from './../interfaces/index';
 
 const pepper: string = process.env.BCRYPT_PASSWORD as string;
 const saltRounds: number = parseInt(process.env.SALT_ROUNDS as string);
@@ -45,7 +44,7 @@ export class UserStore {
     }
   }
 
-  async show(id: Number): Promise<User> {
+  async show(id: number): Promise<User> {
     try {
       const conn = await Client.connect();
       const sql = 'SELECT * FROM users WHERE id=($1)';

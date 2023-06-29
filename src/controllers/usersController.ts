@@ -1,17 +1,16 @@
 //var jwt = require('jsonwebtoken');
-import jwt from 'jsonwebtoken';
 import { User, UserStore } from './../models/user';
-import { Request, Response, NextFunction, Router } from 'express';
+import { Request, Response } from 'express';
 import { getTokenByUser } from './../utils';
 
 const store = new UserStore();
 
-export async function create(req: Request, res: Response, next: NextFunction) {
+export async function create(req: Request, res: Response) {
   try {
-    let username = req.body?.username as string;
-    let password = req.body?.password as string;
-    let firstname = req.body?.firstname as string;
-    let lastname = req.body?.lastname as string;
+    const username = req.body?.username as string;
+    const password = req.body?.password as string;
+    const firstname = req.body?.firstname as string;
+    const lastname = req.body?.lastname as string;
 
     if (username == null || password == null) {
       res.json({
@@ -38,13 +37,13 @@ export async function create(req: Request, res: Response, next: NextFunction) {
   }
 }
 
-export async function index(req: Request, res: Response, next: NextFunction) {
+export async function index(req: Request, res: Response) {
   const users = await store.index();
 
   res.json(users);
 }
 
-export async function show(req: Request, res: Response, next: NextFunction) {
+export async function show(req: Request, res: Response) {
   const id: number = Number(req.params.id);
 
   if (id == 0) {

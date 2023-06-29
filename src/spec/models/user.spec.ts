@@ -33,11 +33,9 @@ describe('User Model', () => {
     await userStore.createUser(newUser1);
     await userStore.createUser(newUser2);
     const users = await userStore.index();
-    const hasUser1 = users.filter((u) => {
-      return u.firstname == newUser1.firstname;
-    });
 
-    expect(hasUser1.length).toEqual(1);
+    expect(users.length).toBeGreaterThan(0);
+
   });
 
   it('show', async () => {

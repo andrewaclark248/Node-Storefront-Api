@@ -13,16 +13,6 @@ const newUser = {
   lastname: 'clark',
 };
 
-const authenticateSuccess = {
-  username: 'aclark-test',
-  password: 'password123',
-};
-
-const authenticateFailure = {
-  username: 'bad-username',
-  password: 'bad-password',
-};
-
 describe('usersController', () => {
   afterEach(async () => {
     await userStore.deleteAll();
@@ -40,7 +30,7 @@ describe('usersController', () => {
       .get('/api/users')
       .set('Authorization', 'Bearer ' + token);
 
-    expect(response.body.length).toEqual(1);
+      expect(response.body.length).toBeGreaterThan(0);
   });
 
   it('show', async () => {

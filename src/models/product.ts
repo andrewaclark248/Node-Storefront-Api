@@ -2,8 +2,8 @@ import Client from '../database';
 
 export type ProductType = {
   name: string;
-  price: Number;
-  id?: Number;
+  price: number;
+  id?: number;
 };
 
 export class ProductStore {
@@ -34,7 +34,7 @@ export class ProductStore {
     }
   }
 
-  async show(id: Number): Promise<ProductType> {
+  async show(id: number): Promise<ProductType> {
     try {
       const conn = await Client.connect();
       const sql = 'SELECT * FROM products WHERE id=($1)';
@@ -50,7 +50,7 @@ export class ProductStore {
     try {
       const conn = await Client.connect();
       const sql = 'DELETE FROM products';
-      const result = await conn.query(sql);
+      await conn.query(sql);
       conn.release();
     } catch (err) {
       throw new Error('error');

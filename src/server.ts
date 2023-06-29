@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express';
+import express from 'express';
 import bodyParser from 'body-parser';
 import productRoutes from './routes/api/productRoutes';
 import userRoutes from './routes/api/userRoutes';

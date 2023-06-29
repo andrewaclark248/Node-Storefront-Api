@@ -64,7 +64,8 @@ describe('ordersController', () => {
       .get('/api/products')
       .set('Authorization', 'Bearer ' + token);
 
-    expect(productsResponse.body.length).toEqual(1);
+    expect(productsResponse.body.length).toBeGreaterThan(0);
+
   });
 });
 

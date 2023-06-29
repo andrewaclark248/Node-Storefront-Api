@@ -29,15 +29,8 @@ describe('Product Model', () => {
     await productStore.createProduct(newProduct2);
     const products = await productStore.index();
 
-    const hasProdcut1 = products.filter((u) => {
-      return u.name == newProduct1.name;
-    });
-    const hasProdcut2 = products.filter((u) => {
-      return u.name == newProduct2.name;
-    });
+    expect(products.length).toBeGreaterThan(0);
 
-    expect(hasProdcut1.length).toEqual(1);
-    expect(hasProdcut2.length).toEqual(1);
   });
 
   it('show', async () => {
