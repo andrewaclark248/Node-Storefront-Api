@@ -3,8 +3,9 @@
 ## To run app
 Ensure you have 2 database created the following
 1.) Create two databases: store_front & store_front_test
-2.) Run DB Migrations: db-migrate up
-3.) Start server: npm run start
+2.) Run Install: npm install
+3.) Run DB Migrations: db-migrate up
+4.) Start server: npm run start
 
 
 ## To run tests
