@@ -24,20 +24,24 @@ These are the notes from a meeting with the frontend developer that describe wha
 
 
 ## Database Schema
-#### User
+#### users
 - id         SERIAL PRIMARY KEY
 - firstName  VARCHAR(100)
 - lastName   VARCHAR(100)
 - password   VARCHAR(100)
 - username   VARCHAR(255)
 
-#### Product
+#### products
 -  id        SERIAL PRIMARY KEY
 - name       VARCHAR(100)
 - price      integer
 
+#### order
+-  id        SERIAL PRIMARY KEY
+- user_id    integer
+- price      integer
 
-#### Orders
+#### order_products
 - order_id   integer
 - product_id integer
 - quantity   integer
