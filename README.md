@@ -1,5 +1,5 @@
 # Storefront Backend Project
-
+Basic CRUD API written in nodejs/typescript
 ## To run app
 1.) Create a .env file and save in the root directory of the project
 Must have the follow values
